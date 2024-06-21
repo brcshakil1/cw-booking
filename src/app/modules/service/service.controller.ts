@@ -18,7 +18,7 @@ const getAllServices = catchAsync(async (req, res) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: "All Services retrieved successfully!",
+    message: "Services retrieved successfully",
     data: result,
   });
 });
@@ -29,7 +29,7 @@ const getSingleService = catchAsync(async (req, res) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: "The Service retrieved successfully!",
+    message: "Service retrieved successfully",
     data: result,
   });
 });
@@ -40,7 +40,7 @@ const updateService = catchAsync(async (req, res) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: "The Service updated successfully!",
+    message: "Service updated successfully",
     data: result,
   });
 });
@@ -51,7 +51,7 @@ const deleteService = catchAsync(async (req, res) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: "The Service deleted successfully!",
+    message: "Service deleted successfully!",
     data: result,
   });
 });

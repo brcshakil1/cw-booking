@@ -6,7 +6,7 @@ import { AuthValidation } from "./auth.validation";
 const router = Router();
 
 router.post(
-  "/",
+  "/login",
   validateRequest(AuthValidation.userLoginSchema),
   AuthControllers.loginUser
 );

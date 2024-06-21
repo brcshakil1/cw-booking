@@ -1,9 +1,9 @@
 import { Response } from "express";
-import httpStatus from "http-status";
 
 type TResponse<T> = {
   success: boolean;
   statusCode: number;
+  token?: string;
   message?: string;
   data: T;
 };
@@ -13,6 +13,7 @@ const sendResponse = <T>(res: Response, data: TResponse<T>) => {
     success: data?.success,
     statusCode: data?.statusCode,
     message: data?.message,
+    token: data?.token,
     data: data?.data,
   });
 };
