@@ -6,7 +6,7 @@ const createServiceValidationSchema = z.object({
     description: z.string().min(1),
     price: z.number(),
     duration: z.number(),
-    isDeleted: z.boolean().default(false),
+    isDeleted: z.boolean(),
   }),
 });
 const updateServiceValidationSchema = z.object({
@@ -15,7 +15,7 @@ const updateServiceValidationSchema = z.object({
     description: z.string().min(1).optional(),
     price: z.number().optional(),
     duration: z.number().optional(),
-    isDeleted: z.boolean().default(false).optional(),
+    isDeleted: z.boolean().optional(),
   }),
 });
 

@@ -1,3 +1,5 @@
+import httpStatus from "http-status";
+import AppError from "../../error/AppError";
 import { TService } from "./service.interface";
 import { Service } from "./service.model";
 
@@ -12,20 +14,37 @@ const getAllServicesFromDB = async () => {
 };
 
 const getSingleServiceFromDB = async (id: string) => {
+  // check is service is exist
+  const service = await Service.isServiceExistById(id);
+  if (!service) {
+    throw new AppError(httpStatus.NOT_FOUND, "Not found the service!");
+  }
+
   const result = await Service.findById(id);
   return result;
 };
 
 const updateServiceIntoDB = async (id: string, payload: Partial<TService>) => {
+  // check is service is exist
+  const service = await Service.isServiceExistById(id);
+  if (!service) {
+    throw new AppError(httpStatus.NOT_FOUND, "Not found the service!");
+  }
   const result = await Service.findByIdAndUpdate(id, payload, {
     new: true,
     runValidators: true,
   });
-
+  console.log(payload);
   return result;
 };
 
 const deleteServiceFromDB = async (id: string) => {
+  // check is service is exist
+  const service = await Service.isServiceExistById(id);
+  if (!service) {
+    throw new AppError(httpStatus.NOT_FOUND, "Not found the service!");
+  }
+
   const result = await Service.findByIdAndUpdate(
     id,
     { isDeleted: true },
