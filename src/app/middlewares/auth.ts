@@ -12,15 +12,15 @@ const auth = (...requiredRoles: TUserRole[]) => {
     const token = header && header.split(" ")[1];
     const bearer = header && header.split(" ")[0];
 
+    if (!token) {
+      throw new AppError(httpStatus.UNAUTHORIZED, "Unauthorized access.");
+    }
+
     if (bearer !== "Bearer") {
       throw new AppError(
         httpStatus.UNAUTHORIZED,
         "Authorization header must contain 'Bearer'  !"
       );
-    }
-
-    if (!token) {
-      throw new AppError(httpStatus.UNAUTHORIZED, "Unauthorized access.");
     }
 
     const decoded = jwt.verify(
