@@ -60,49 +60,40 @@ const createSlotIntoDB = async (payload: TSlot) => {
 };
 
 const getAllSlotsFromDB = async (query: Record<string, unknown>) => {
-  let date = {};
-  let service = {};
-  if (query.date) {
-    date = query.date;
-  }
-  if (query.date) {
-    date = query.date;
-  }
-  if (query.serviceId) {
-    service = query.serviceId;
+  const { date, serviceId } = query;
+  const queryData: { date?: string; service?: string } = {};
+
+  if (date) {
+    queryData.date = date as string;
+
+    // check if date doesn't exist
+    const isSlotDateIsExists = await Slot.findOne({ date: queryData.date });
+    if (!isSlotDateIsExists) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        "There is no slot available to the date"
+      );
+    }
   }
 
-  const result = await Slot.find({ date, service })
+  if (serviceId) {
+    queryData.service = serviceId as string;
+
+    // check if service doesn't exist
+    const isServiceExist = await Service.isServiceExistById(queryData.service);
+    if (!isServiceExist) {
+      throw new AppError(httpStatus.BAD_REQUEST, "Service does not exist");
+    }
+  }
+
+  const result = await Slot.find(queryData)
     .select({ __v: 0 })
     .populate("service");
-  return result;
-};
 
-const getSingleSlotFromDB = async (id: string) => {
-  const result = await Slot.findById(id);
-  return result;
-};
-
-const updateSlotIntoDB = async (id: string, payload: Partial<TSlot>) => {
-  const result = await Slot.findByIdAndUpdate(id, payload, {
-    new: true,
-    runValidators: true,
-  });
-  return result;
-};
-
-const deleteSlotFromDB = async (id: string) => {
-  const result = await Slot.findByIdAndUpdate(
-    id,
-    { isDeleted: true },
-    { new: true }
-  );
   return result;
 };
 
 export const SlotServices = {
   createSlotIntoDB,
   getAllSlotsFromDB,
-  getSingleSlotFromDB,
-  deleteSlotFromDB,
 };

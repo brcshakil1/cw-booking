@@ -8,7 +8,7 @@ const handleDuplicateError = (err: any): TGenericResponse => {
 
   const extractedMessage = match && match[1];
 
-  const errorSources = [
+  const errorMessages = [
     {
       path: "",
       message: extractedMessage,
@@ -18,8 +18,10 @@ const handleDuplicateError = (err: any): TGenericResponse => {
   const statusCode = 400;
   return {
     statusCode,
-    message: "Invalid Email",
-    errorSources,
+    message: err?.errorResponse?.errmsg
+      ? err?.errorResponse?.errmsg
+      : "Invalid Email",
+    errorMessages,
   };
 };
 

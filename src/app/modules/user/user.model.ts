@@ -25,6 +25,11 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
+UserSchema.post("save", function (doc, next) {
+  (doc as any).password = undefined;
+  next();
+});
+
 UserSchema.statics.isUserExistsByEmail = async function (email: string) {
   return await User.findOne({ email }).select({ __v: 0 });
 };
